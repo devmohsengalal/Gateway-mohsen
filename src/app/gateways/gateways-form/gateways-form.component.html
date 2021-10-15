@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>
+  {{ CRUDMode == CRUDEnum.Create ? "Create New" : "Edit Current" }} Gateway
+</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="gatewayForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <mat-form-field class="col-12" appearance="fill">
+        <mat-label>Serial Number</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="serialNumber"
+          placeholder="Ex. SN-00000"
+        />
+
+        <mat-error
+          *ngIf="
+            gatewayForm.get('serialNumber')?.hasError('UniqueValue') &&
+            !gatewayForm.get('serialNumber')?.hasError('required')
+          "
+        >
+          Serial Number is <strong>Dublicated</strong>
+        </mat-error>
+        <mat-error
+          *ngIf="gatewayForm.get('serialNumber')?.hasError('required')"
+        >
+          This Field is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-12" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="name"
+          placeholder="Ex. office"
+        />
+        <mat-error *ngIf="gatewayForm.get('name')?.hasError('required')">
+          This Field is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-12" appearance="fill">
+        <mat-label>IP Address</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="IPv4"
+          placeholder="Ex. 192.168.1.1"
+        />
+        <mat-error
+          *ngIf="
+            gatewayForm.get('IPv4')?.hasError('IPv4Format') &&
+            !gatewayForm.get('IPv4')?.hasError('required')
+          "
+        >
+          Invalid <strong>IPv4 Format</strong>
+        </mat-error>
+        <mat-error *ngIf="gatewayForm.get('IPv4')?.hasError('required')">
+          This Field is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="primary" (click)="onSubmit()"> {{ CRUDMode == CRUDEnum.Create ? "Add" : "Update" }}</button>
+</mat-dialog-actions>

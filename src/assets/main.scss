@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+.mat-column-view,.mat-column-edit,.mat-column-delete {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  text-align: center !important;
+}

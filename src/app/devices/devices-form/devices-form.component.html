@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>
+  {{ CRUDMode == CRUDEnum.Create ? "Create New" : "Edit Current" }} Device
+</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="devicesForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <mat-form-field class="col-12" appearance="fill">
+        <mat-label>UID</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="UID"
+          placeholder="Ex. 45647"
+        />
+
+        <mat-error
+          *ngIf="
+            devicesForm.get('UID')?.hasError('UniqueValue') &&
+            !devicesForm.get('UID')?.hasError('required')
+          "
+        >
+          UID is <strong>Dublicated</strong>
+        </mat-error>
+        <mat-error *ngIf="devicesForm.get('UID')?.hasError('required')">
+          This Field is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-12" appearance="fill">
+        <mat-label>Vendor</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="vendor"
+          placeholder="Ex. ALi"
+        />
+        <mat-error *ngIf="devicesForm.get('vendor')?.hasError('required')">
+          This Field is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-slide-toggle color="primary" formControlName="status" #stat>{{stat.checked?'Online':'Offline'}}</mat-slide-toggle>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="primary" (click)="onSubmit()">
+    {{ CRUDMode == CRUDEnum.Create ? "Add" : "Update" }}
+  </button>
+</mat-dialog-actions>

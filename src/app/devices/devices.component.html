@@ -1,0 +1,93 @@
+<h2 mat-dialog-title style="display: flex; align-items: center">
+  {{ data.serialNumber }}
+  Devices
+
+  <button
+    mat-button
+    color="primary"
+    aria-label="add Device"
+    style="margin-left: auto"
+    (click)="openDeviceDialog(CRUDEnum.Create)"
+    [disabled]="data?.devices?.length == 10"
+  >
+    <mat-icon>add</mat-icon>
+    Add
+  </button>
+</h2>
+<mat-dialog-content>
+  <table
+    mat-table
+    [dataSource]="data.devices ? data.devices : []"
+    class="mat-elevation-z8"
+  >
+    <ng-container
+      [matColumnDef]="column.key"
+      *ngFor="let column of displayedColumns"
+    >
+      <th mat-header-cell *matHeaderCellDef>{{ column.title }}</th>
+      <td mat-cell *matCellDef="let element">{{ element[column.key] }}</td>
+    </ng-container>
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-chip-list>
+          <mat-chip
+            [color]="
+              element['status'] == statusEnum.online ? 'primary' : 'gray'
+            "
+            selected
+            >{{ element["status"] == statusEnum.online ? "Online" : "Offline" }}
+          </mat-chip>
+        </mat-chip-list>
+      </td>
+    </ng-container>
+
+    <!-- Date -->
+    <ng-container matColumnDef="createdDate">
+      <th mat-header-cell *matHeaderCellDef>Created Date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element["createdDate"] | date: "short" }}
+      </td>
+    </ng-container>
+
+    <!-- edit btn -->
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef>Edit</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          color="accent"
+          aria-label="Edit Device"
+          (click)="openDeviceDialog(CRUDEnum.Update, element)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <!-- delete -->
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef>Delete</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          color="warn"
+          aria-label="Delete Device"
+          (click)="removeItem(element)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsKeys"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsKeys"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="9999">
+        There Is No Peripheral Devices For This Gateway
+      </td>
+    </tr>
+  </table>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
